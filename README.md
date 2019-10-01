@@ -29,5 +29,11 @@ You can also use Maven plugin to run your Spring Boot app. Use the below example
 
     mvn spring-boot:run
 
+In addition
+Some points that still can be improved
+
+    For separetion of concearns, abstrac the logic inside the controllers methods for a service/class package.
+    In the end, we should have the final structure as models, repositories, controllers and services.
+
 Thanks!
 If you found any issue, please, let me know.
