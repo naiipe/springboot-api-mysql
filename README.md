@@ -4,7 +4,7 @@ An API wrote in Java8 Spring-boot that connect with MysqlDB running basic CRUD o
 API Documentation:
 https://documenter.getpostman.com/view/2500522/SVtN5CFk?version=latest
 
-In order to run this application you will need to generate a mock information based on you local mysql.
+In order to run this application you will need to generate a mock information based on your local mysql.
 
 
 # Build Spring Boot Project with Maven
