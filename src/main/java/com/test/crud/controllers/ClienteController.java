@@ -25,14 +25,8 @@ public class ClienteController {
 
 	@PostMapping(path="/create")
 	public @ResponseBody Object addClient (@RequestBody Cliente cliente) {
-
-		Cliente clt = new Cliente();
-		clt.setNomeCompleto(cliente.getNomeCompleto());
-		clt.setDataNascimento(cliente.getDataNascimento());
-		clt.setSexo(cliente.getSexo());
-		clt.setCidade(cliente.getCidade());
-		clt.setIdade(cliente.getIdade());
-		cltRepository.save(clt);
+		
+		cltRepository.save(ClienteRepository.createRequestBody(cliente));
 		return cliente;
 	}
 
@@ -45,13 +39,9 @@ public class ClienteController {
 	private @ResponseBody Object getByName(@PathVariable("value") String name) {
 		Object obj = null;
 		Iterable<Cliente> clts = cltRepository.findAll();
-		for(Cliente clt: clts ) {
-			if(clt.getNomeCompleto().equals(name)) {
-				obj = clt;
-			}
-		}
+		obj = ClienteRepository.searchByKey(clts, name);
 		if(obj == null) {
-			return "Sorry, no one was found.";
+			return "Sorry, no one was found.";	
 		}else {
 		return obj;
 		}
@@ -61,13 +51,7 @@ public class ClienteController {
 	private @ResponseBody String deleteByName(@PathVariable("value") String name) {
 		Boolean bool = false;
 		Iterable<Cliente> clts = cltRepository.findAll();
-		for(Cliente clt: clts ) {
-			if(clt.getNomeCompleto().equals(name)) {
-				Integer del = clt.getId();
-				cltRepository.deleteById(del);
-				bool = true;
-			}
-		}
+		bool = ClienteRepository.deleteByKey(clts, name, cltRepository);
 		if(bool == false) {
 			return "Sorry, no one was found.";
 		}else {
@@ -79,13 +63,7 @@ public class ClienteController {
 	private @ResponseBody String updateByName(@PathVariable("value") String name, @RequestBody Cliente cliente) {
 		Boolean bool = false;
 		Iterable<Cliente> clts = cltRepository.findAll();
-		for(Cliente clt: clts ) {
-			if(clt.getNomeCompleto().equals(name)) {
-				clt.setNomeCompleto(cliente.getNomeCompleto());
-				cltRepository.save(clt);
-				bool = true;
-			}
-		}
+		bool = ClienteRepository.updateName(clts, name, cliente, cltRepository);
 		if(bool == false) {
 			return "Sorry, no one was found.";
 		}else {
