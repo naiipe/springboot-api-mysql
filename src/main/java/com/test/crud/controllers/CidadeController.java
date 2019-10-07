@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.test.crud.models.Cidade;
 import com.test.crud.repositories.CidadeRepository;
+import com.test.crud.services.CidadeService;
 
 @Controller
 @RequestMapping(path="/city")
@@ -22,10 +23,7 @@ public class CidadeController {
     @PostMapping(path="/create")
     public @ResponseBody Object addCidade(@RequestBody Cidade cidade) {
     	
-    	Cidade cdd = new Cidade();
-    	cdd.setNome(cidade.getNome());
-    	cdd.setEstado(cidade.getEstado());
-    	cddRepository.save(cdd);
+    	cddRepository.save(CidadeService.createRequestBody(cidade));
     	return cidade;
     }
     
@@ -33,11 +31,7 @@ public class CidadeController {
     private @ResponseBody Object getByCidade(@PathVariable("value") String name) {
     	Object obj = null;
     	Iterable<Cidade> cdds = cddRepository.findAll();
-    	for(Cidade cdd: cdds ) {
-    		if(cdd.getNome().equals(name)) {
-    			obj = cdd;
-    		}
-    	}
+		obj = CidadeService.searchByKey(cdds, name);
     	if(obj == null) {
     		return "Sorry, no one was found.";
     	}else {
@@ -49,11 +43,7 @@ public class CidadeController {
 	private @ResponseBody Object getByEstado(@PathVariable("value") String estado) {
 		Object obj = null;
 		Iterable<Cidade> cdds = cddRepository.findAll();
-		for(Cidade cdd: cdds ) {
-			if(cdd.getEstado().equals(estado)) {
-				obj = cdd;
-			}
-		}
+		obj = CidadeService.searchByKey(cdds, estado);
 		if(obj == null) {
 			return "Sorry, no one was found.";
 		}else {
